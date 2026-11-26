@@ -1,7 +1,11 @@
-
-# 1. Importamos a base
+# 1. Importamos a base diretamente do repositório no GitHub
 library(readxl)
-base <- read_excel(file.choose(), sheet = "Consolidado")
+
+url <- "https://raw.githubusercontent.com/antoniohbueno/econometria1-renda-satisfacao-vida/main/Base_Felicidade.xlsx"
+arquivo <- tempfile(fileext = ".xlsx")
+download.file(url, destfile = arquivo, mode = "wb")
+
+base <- read_excel(arquivo, sheet = "Consolidado")
 
 # Aplicamos a transformação da variável do PIB per Capita
 base$log_pib <- log(base$pib_pc)
@@ -165,3 +169,4 @@ fig3 <- ggplot(efeito_regiao, aes(x = estimativa, y = regiao)) +
   theme_minimal()
 fig3
 ggsave("figura3_regioes.png", fig3, width = 7, height = 4, dpi = 300, bg = "white")
+
